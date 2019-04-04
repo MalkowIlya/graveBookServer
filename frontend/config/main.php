@@ -15,6 +15,9 @@ return [
         'request' => [
             // 'csrfParam' => '_csrf-frontend',
             'baseUrl' => '',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -47,10 +50,24 @@ return [
         */
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                '' => 'site/index',                                
-                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['user', 'order', 'product', 'auth'],
+                    'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'GET colors' => 'colors',
+                        'GET price/<id>' => 'price',
+                        'GET get_user_by_auth_id/<auth_id>' => 'get_user_by_auth_id',
+                        'POST create_user' => 'create_user',
+                    ]
+
+                ],
+//                '' => 'site/index',
+//                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
         ],
     ],
