@@ -16,6 +16,8 @@ use Yii;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
+ * @property string $auth_id
+ * @property string $user_img
  */
 class User extends \common\models\User
 {
@@ -24,12 +26,15 @@ class User extends \common\models\User
         return [
             'id',
             'username',
-            'email',
-            'mama',
-            'is_rrr' => function($model) {
-                return $model->id == 1 ? 'rrr': 'ddd';
-            }
+            'auth_key',
+            'auth_id',
+            'user_img',
         ];
+    }
+
+    public function time_created()
+    {
+
     }
 
     public function extraFields()
@@ -44,8 +49,8 @@ class User extends \common\models\User
         return $this->hasMany(Documents::className(), ['user_id' => 'id']);
     }
 
-    public function getMama()
+    public function getData()
     {
-        return $this->id . 'fff';
+        return $this->id . 'sadasdasdfff';
     }
 }

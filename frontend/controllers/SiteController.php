@@ -1,7 +1,9 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\models\User;
 use Yii;
+use yii\base\ErrorException;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -73,6 +75,16 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionLoginApi()
+    {
+        if ($user = User::findByUsername(Yii::$app->request->get('username')) and
+        $user->validatePassword(Yii::$app->request->get('username'))) {
+            return $user->access_token;
+        } else {
+            throw new ErrorException("Нет такого");
+        }
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 namespace frontend\controllers;
+use yii\filters\AccessControl;
+use yii\filters\auth\HttpBasicAuth;
 use yii\rest\ActiveController;
 class BaseApiController extends ActiveController
 {
@@ -17,15 +19,20 @@ class BaseApiController extends ActiveController
      * @return array
      */
     public function behaviors() {
-        return [
-            'contentNegotiator' => [
-                'class' => \yii\filters\ContentNegotiator::className(),
-                'formatParam' => '_format',
-                'formats' => [
-                    'application/json' => \yii\web\Response::FORMAT_JSON,
-//                    'application/xml' => \yii\web\Response::FORMAT_XML
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => HttpBasicAuth::className(),
+
+        ];
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@']
                 ],
             ],
         ];
+        return $behaviors;
     }
 }

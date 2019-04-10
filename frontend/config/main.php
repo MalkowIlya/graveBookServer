@@ -39,6 +39,7 @@ return [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+            'maxSourceLines' => 20,
         ],
         /*
         'urlManager' => [
@@ -55,14 +56,17 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => ['user', 'order', 'product', 'auth'],
+                    'controller' => ['user', 'grave', 'auth'],
                     'pluralize' => false,
 
                     'extraPatterns' => [
-                        'GET colors' => 'colors',
-                        'GET price/<id>' => 'price',
-                        'GET get_user_by_auth_id/<auth_id>' => 'get_user_by_auth_id',
-                        'POST create_user' => 'create_user',
+
+                        'POST register' => 'register',
+                        'POST connectsoc' => 'connectsoc',
+                        'POST auth' => 'auth',
+                        'GET getgrave/<id>' => 'get-grave',
+
+                        'GET getetuserbyid/<auth_id>' => 'get_user_by_auth_id'
                     ]
 
                 ],
@@ -70,6 +74,21 @@ return [
 //                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
         ],
+
+        'contentNegotiator' => [
+            'class' => \yii\filters\ContentNegotiator::className(),
+            'formatParam' => '_format',
+            'formats' => [
+                'application/xml' => \yii\web\Response::FORMAT_XML,
+                'application/json' => \yii\web\Response::FORMAT_JSON,
+            ],
+        ],
+
+
     ],
+
+
+
+
     'params' => $params,
 ];

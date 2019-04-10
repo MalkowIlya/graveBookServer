@@ -5,6 +5,8 @@
 /* @var $message string */
 /* @var $exception Exception */
 
+//echo $exception;
+
 use yii\helpers\Html;
 
 $this->title = $name;
